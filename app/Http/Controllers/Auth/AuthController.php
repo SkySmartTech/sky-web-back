@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Http\Requests\Auth\ChangePasswordRequest;
 
 class AuthController extends Controller
 {
@@ -42,5 +43,21 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()?->delete();
         return response()->json(['message' => 'Logged out']);
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $user = $request->user();
+
+        if (! Hash::check($request->input('current_password'), $user->password)) {
+            return response()->json(['message' => 'Current password is incorrect'], 422);
+        }
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        $user->tokens()->where('id', '!=', $request->user()->currentAccessToken()?->id)->delete();
+
+        return response()->json(['message' => 'Password changed']);
     }
 }

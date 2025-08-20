@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\User\StoreUserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\ResetPasswordRequest;
 
 class UserController extends Controller
 {
@@ -69,5 +70,17 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted']);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request, \App\Models\User $user)
+    {
+        $user->update([
+            'password' => Hash::make($request->input('password')),
+        ]);
+
+
+        $user->tokens()->delete();
+
+        return response()->json(['message' => 'Password reset for user', 'user_id' => $user->id]);
     }
 }
