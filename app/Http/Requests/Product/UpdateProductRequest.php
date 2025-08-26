@@ -21,8 +21,8 @@ class UpdateProductRequest extends FormRequest
             'slug'        => ['sometimes','string','max:255',"unique:products,slug,{$id}"],
             'description' => ['sometimes','string'],
             'price'       => ['sometimes','numeric','min:0'],
-            'image'       => ['sometimes','string','max:255'],
-            'thumbnail'   => ['sometimes','string','max:255'],
+            'image'       => ['sometimes','image','mimes:jpg,jpeg,png,webp,avif','max:5120'],
+            'thumbnail'   => ['sometimes','image','mimes:jpg,jpeg,png,webp,avif','max:5120'],
             'url'         => ['sometimes','url'],
         ];
     }
