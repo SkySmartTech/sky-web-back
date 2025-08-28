@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Employee\EmployeeController;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
@@ -28,6 +29,8 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
+Route::get('/employees', [EmployeeController::class, 'index']);
+Route::get('/employees/{employee}', [EmployeeController::class, 'show']);
 
 
 
@@ -38,4 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+    Route::post('/employees', [EmployeeController::class, 'store']);
+    Route::put('/employees/{employee}', [EmployeeController::class, 'update']);
+    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy']);
 });
