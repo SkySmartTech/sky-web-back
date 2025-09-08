@@ -122,6 +122,8 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+        $product->refresh();
+        \Log::info('product.update.validated', $data);
 
         return response()->json([
             'message' => 'Product updated',
